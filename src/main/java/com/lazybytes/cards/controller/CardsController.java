@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +25,16 @@ import org.springframework.web.bind.annotation.*;
 )
 @RestController
 @RequestMapping(path = "/api/cards", produces = "application/json")
-@AllArgsConstructor
 public class CardsController {
 
-    private ICardService iCardService;
+    private final ICardService iCardService;
+
+    public CardsController(ICardService iCardService) {
+        this.iCardService = iCardService;
+    }
+
+    @Value("${build.version}")
+    private String buildVersion;
 
     @Operation(
             summary = "Create Card REST API",
@@ -121,5 +128,25 @@ public class CardsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDto(CardsConstants.STATUS_500, CardsConstants.MESSAGE_500));
         }
+    }
+
+    @Operation(
+            summary = "Fetch Build Version REST API",
+            description = "REST API to fetch the build version of the Cards service"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status 200 OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status INTERNAL SERVER ERROR"
+            )
+    })
+    @GetMapping("/build-version")
+    public ResponseEntity<ResponseDto> fetchVersionInfo() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto(CardsConstants.STATUS_200, "Cards Service Build Version: " + buildVersion));
     }
 }

@@ -1,3 +1,5 @@
+server:
+  port: 9000
 spring:
   application:
   name: cards
@@ -15,5 +17,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-server:
-  port: 9000
+
+build:
+  version: "1.0"
