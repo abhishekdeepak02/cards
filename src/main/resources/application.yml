@@ -17,25 +17,3 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-  config:
-    import:
-      - "application_qa.yml"
-      - "application_prod.yml"
-
-  profiles:
-    active:
-        - "qa"
-
-build:
-  version: "3.0"
-
-cards:
-  message: "Welcome to the Cards Service- Dev Support"
-  contactDetails:
-    name: "John Doe"
-    phone: "123-456-7890"
-    email: "John@email.com"
-  onCallSupport:
-    - (555) 123-4567
-    - (555) 987-6543
