@@ -3,6 +3,7 @@ package com.lazybytes.cards.controller;
 import com.lazybytes.cards.constant.CardsConstants;
 import com.lazybytes.cards.dto.CardTxnDto;
 import com.lazybytes.cards.dto.CardsDto;
+import com.lazybytes.cards.dto.CardsInfoRecordDto;
 import com.lazybytes.cards.dto.ResponseDto;
 import com.lazybytes.cards.entity.Cards;
 import com.lazybytes.cards.mapper.CardsMapper;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,9 @@ public class CardsController {
 
     @Value("${build.version}")
     private String buildVersion;
+
+    @Autowired
+    private CardsInfoRecordDto cardsInfoRecordDto;
 
     @Operation(
             summary = "Create Card REST API",
@@ -149,4 +154,25 @@ public class CardsController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDto(CardsConstants.STATUS_200, "Cards Service Build Version: " + buildVersion));
     }
+
+    @Operation(
+            summary = "Fetch Card REST API Contact Details",
+            description = "REST API to fetch the contact information of the Cards service Support Team"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status 200 OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status INTERNAL SERVER ERROR"
+            )
+    })
+    @GetMapping("/contact-info")
+    public ResponseEntity<CardsInfoRecordDto> fetchContactInfo() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(cardsInfoRecordDto);
+    }
+
 }
