@@ -20,11 +20,12 @@ spring:
     show-sql: true
   config:
     import: "optional:configserver:http://localhost:8071/"
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+#  Commenting rabbit mq as we'll use actuator refresh to update configs  dynamically instead of busrefresh.
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
 # Add management endpoint exposure Enable/Refresh API
 management:
   endpoints:
